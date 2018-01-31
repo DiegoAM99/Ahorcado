@@ -7,6 +7,7 @@ package codigo;
 
 import java.awt.Image;
 import java.net.URL;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -18,7 +19,6 @@ public class VentanaAhorcado2 extends javax.swing.JFrame {
 
 String palabraOculta = "CETYS";
 int numeroDeFallos = 0;
-
     /**
      * Creates new form VentanaAhorcado2
      */
@@ -26,9 +26,26 @@ int numeroDeFallos = 0;
         initComponents();
         //Inicializo la imagen del label del ahorcado
         dibujaImagen(NORMAL);
+         dibujaImagen(0);
+ 	palabraOculta = escogePalabra();
     }
-    
+    private void checkbarras() {
+        String barras = "";
+        for (int i = 0; i < palabraOculta.length(); i++) {
+            barras += "_ ";   
+        }
+ 	jLabel1.setText(barras);	 
+    }
+        private String escogePalabra(){
+	String palabra = "CETYS";
+	String[] listaPalabras = {"hola","adios","esternocleidomastoideo","piña","CETYS"};
+	Random random = new Random();
+	palabra = listaPalabras[random.nextInt(listaPalabras.length)];
+	palabra = palabra.toUpperCase();
+	return palabra;
+    }
     private void chequeaLetra(String letra){
+        URL nombreImagen;
         letra = letra.toUpperCase();
         String palabraConGuiones = jLabel1.getText();
         
@@ -39,6 +56,14 @@ int numeroDeFallos = 0;
                 palabraConGuiones = palabraConGuiones.substring(0,2*i) + letra + palabraConGuiones.substring(2*i +1);
                 acierto = true;
             }
+        }
+        if (!palabraConGuiones.contains("_")){
+              nombreImagen = getClass().getResource("/imagenes/acertasteTodo.png");
+              int ancho =jLabel2.getWidth();
+              int alto =jLabel2.getHeight();
+              ImageIcon miImagen = new ImageIcon( new ImageIcon(nombreImagen).getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+              jLabel2.setIcon(miImagen);
+              
         }
         //actualizo el valor que se muestra en la pantalla con letras
         //adivinadas
